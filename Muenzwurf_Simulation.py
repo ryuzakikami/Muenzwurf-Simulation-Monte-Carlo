@@ -17,18 +17,10 @@ class Muenzwurf:
         self.anzahl_kopf += np.sum(ergebnisse == self.kopf)
         self.anzahl_zahl += np.sum(ergebnisse == self.zahl)
 
-def update_progress(progress_bar, ergebnis_label, i, gesamt_wuerfe):
-    progress_bar['value'] = (i / gesamt_wuerfe) * 100
-    if i % 100 == 0:  
-        ergebnis_label.config(text=f"Berechnet: {i}/{gesamt_wuerfe} Würfe")
-
-def run_simulation(gesamt_wuerfe, progress_bar, ergebnis_label, ladefenster):
+def run_simulation(gesamt_wuerfe):
     wurf = Muenzwurf()
-    
     anteil_kopf = []
     anteil_zahl = []
-    
-    
     schritte = 1  
     x_wuerfe = []
 
@@ -40,13 +32,8 @@ def run_simulation(gesamt_wuerfe, progress_bar, ergebnis_label, ladefenster):
         anteil_kopf.append(wurf.anzahl_kopf / (i + anzahl))
         anteil_zahl.append(wurf.anzahl_zahl / (i + anzahl))
         x_wuerfe.append(i + anzahl)  
-        
-        update_progress(progress_bar, ergebnis_label, i + anzahl, gesamt_wuerfe)
 
 
-    ladefenster.destroy()
-
- 
     plt.figure(figsize=(14, 8))
 
 
@@ -73,15 +60,10 @@ def run_simulation(gesamt_wuerfe, progress_bar, ergebnis_label, ladefenster):
 def start_simulation(gesamt_wuerfe):
     global ladefenster
     ladefenster = tk.Toplevel(root)
-    ladefenster.title("Ladebalken")
-
-    progress_bar = ttk.Progressbar(ladefenster, orient='horizontal', length=300, mode='determinate')
-    progress_bar.pack(pady=20)
-
     ergebnis_label = tk.Label(ladefenster, text="", font=("Arial", 12))
     ergebnis_label.pack(pady=10)
 
-    run_simulation(gesamt_wuerfe, progress_bar, ergebnis_label, ladefenster)
+    run_simulation(gesamt_wuerfe)
 
 def eingabe_zahl():
     global root
